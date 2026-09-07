@@ -1,5 +1,8 @@
 # 企業 AI to Agent 公開教學圖卡
 
+[![一致性檢查](https://github.com/draiagent/AI-to-Agent-VAC-Task-12Cards/actions/workflows/consistency.yml/badge.svg?branch=main)](https://github.com/draiagent/AI-to-Agent-VAC-Task-12Cards/actions/workflows/consistency.yml)
+[![授權: CC BY-SA 4.0](https://img.shields.io/badge/授權-CC%20BY--SA%204.0-lightgrey.svg)](LICENSE)
+
 AI Coach 益力康陳董｜2026 AI to Agent
 
 用AI放大創意‧用Agent輕鬆執行
