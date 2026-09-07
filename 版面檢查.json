@@ -1,0 +1,8 @@
+{
+  "pages": 12,
+  "steps": 96,
+  "issues": [],
+  "method": "PDF text extraction + geometry checks; PNG review separately",
+  "visual_review": "已檢查全套總覽及第01、02、03、06、10、11頁細部；無文字缺字、重疊或超出版面。",
+  "html_note": "HTML內容與字體已生成；固定版面驗收以PDF及由PDF輸出的PNG為準。"
+}

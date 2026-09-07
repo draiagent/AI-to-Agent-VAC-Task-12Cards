@@ -1,0 +1,782 @@
+[
+  {
+    "id": "01",
+    "title": "行銷簡報",
+    "layer": "看得到成果",
+    "tagline": "把產品資料，變成客戶看得懂的提案",
+    "goal": "依指定受眾產出 10 頁產品提案，說清楚價值與下一步。",
+    "inputs": "品牌模板、產品規格、客群、佐證資料、圖片授權",
+    "outputs": "10 頁 PPTX＋預覽 PDF＋來源清單",
+    "qa": "數字可追溯；無文字溢出；品牌一致；主張有佐證。",
+    "roi": "每份製作工時、修改輪次、首次驗收通過率",
+    "pilot": "用一項產品、一種客群，製作 10 頁提案；與人工同規格版本比較。",
+    "setup": "具檔案與程式執行能力的 Agent；python-pptx；PowerPoint 或 LibreOffice 用於另行轉 PDF。先提供已核准模板及產品資料。",
+    "failure": "缺產品佐證就標待補；頁面溢出則拆頁；無轉檔器就先交 PPTX 與缺項紀錄。",
+    "fields": "product_id,claim_id,claim,source_file,source_page,approved",
+    "steps": [
+      {
+        "title": "定義任務",
+        "tool": "AI Agent",
+        "desc": "確認受眾、提案目的與頁數。",
+        "deliver": "簡報任務書"
+      },
+      {
+        "title": "盤點素材",
+        "tool": "檔案讀取",
+        "desc": "辨識版本、規格與素材缺口。",
+        "deliver": "素材清單"
+      },
+      {
+        "title": "建立主張",
+        "tool": "AI Agent",
+        "desc": "每項賣點綁定資料與證據。",
+        "deliver": "主張對照表"
+      },
+      {
+        "title": "規劃大綱",
+        "tool": "AI Agent",
+        "desc": "安排痛點、方案、證據與行動。",
+        "deliver": "10 頁大綱"
+      },
+      {
+        "title": "撰寫內容",
+        "tool": "AI Agent",
+        "desc": "一頁一個主張，精簡文字。",
+        "deliver": "逐頁文案"
+      },
+      {
+        "title": "套版製作",
+        "tool": "python-pptx",
+        "desc": "將文案與圖表填入品牌模板。",
+        "deliver": "PPTX 初稿"
+      },
+      {
+        "title": "渲染檢查",
+        "tool": "PowerPoint／LibreOffice",
+        "desc": "轉成預覽，檢查字體與溢出。",
+        "deliver": "逐頁預覽"
+      },
+      {
+        "title": "校對交付",
+        "tool": "Agent＋行銷主管",
+        "desc": "核對事實、品牌與提案訴求。",
+        "deliver": "簡報定稿"
+      }
+    ]
+  },
+  {
+    "id": "02",
+    "title": "短影音",
+    "layer": "看得到成果",
+    "tagline": "讓 Agent 規劃剪輯，讓工具完成成片",
+    "goal": "把授權原始素材，剪成一支 30–60 秒直式短片。",
+    "inputs": "原始影片、品牌素材、內容目標、授權配樂",
+    "outputs": "MP4＋SRT 字幕＋剪輯清單＋QA 紀錄",
+    "qa": "字幕可讀；影音同步；全片可解碼；切點與主張正確。",
+    "roi": "每支成片工時、修改輪次、驗收通過率",
+    "pilot": "提供一段 3 分鐘口播，先產出 30–60 秒、1080×1920 的直式影片。",
+    "setup": "先安裝 FFmpeg/ffprobe 與可用 STT；WhisperX 是 STT 的一種。逐字對齊依語言模型可用性而定；說話者分離另需模型授權與設定。動態字幕可選 Remotion。",
+    "failure": "轉寫不清楚的地方保留時間碼供人工確認；解碼或同步失敗回到粗剪；無影像理解能力則以抽幀與人工全片檢查補足。",
+    "fields": "clip_id,file,start_seconds,end_seconds,caption,reason",
+    "steps": [
+      {
+        "title": "素材解析",
+        "tool": "ffprobe",
+        "desc": "檢查方向、解析度、FPS、音軌、時長。",
+        "deliver": "素材規格表"
+      },
+      {
+        "title": "語音理解",
+        "tool": "STT（如 WhisperX）",
+        "desc": "轉寫並標記時間碼與不確定詞。",
+        "deliver": "逐字稿"
+      },
+      {
+        "title": "語意整理",
+        "tool": "AI Agent",
+        "desc": "辨識主線、重複、開場與行動呼籲。",
+        "deliver": "內容選段表"
+      },
+      {
+        "title": "剪輯決策",
+        "tool": "AI Agent 決策引擎",
+        "desc": "選鏡排序，建立片段與字幕時間線。",
+        "deliver": "Timeline JSON"
+      },
+      {
+        "title": "精準粗剪",
+        "tool": "FFmpeg",
+        "desc": "按影格重編碼剪接，處理切點音訊。",
+        "deliver": "粗剪影片"
+      },
+      {
+        "title": "字幕圖卡",
+        "tool": "FFmpeg／Remotion",
+        "desc": "套字幕與 Logo；靜態圖卡可用 Pillow。",
+        "deliver": "品牌合成版"
+      },
+      {
+        "title": "混音預覽",
+        "tool": "FFmpeg＋人工預覽",
+        "desc": "依輸出規格調整響度，檢查影音同步。",
+        "deliver": "全片預覽"
+      },
+      {
+        "title": "QA 定稿",
+        "tool": "ffprobe＋FFmpeg",
+        "desc": "完整解碼；逐切點與字幕校對後定稿。",
+        "deliver": "驗收成片"
+      }
+    ]
+  },
+  {
+    "id": "03",
+    "title": "財務月報",
+    "layer": "看得到成果",
+    "tagline": "讓財務少做搬資料，多做差異解讀",
+    "goal": "以已結帳資料產出可對帳的管理月報。",
+    "inputs": "試算表、科目對照、預算、上期資料、幣別口徑",
+    "outputs": "管理月報 XLSX／PDF＋對帳表＋異常清單",
+    "qa": "科目完整；總額一致；幣別期間一致；財務覆核。",
+    "roi": "月報製作工時、對帳差異筆數、關帳後交付天數",
+    "pilot": "取兩個已結帳月份，只做收入、成本、費用與損益分析；有資料再增加資產負債及現金流。",
+    "setup": "從 ERP 匯出已結帳試算表，指定借貸與損益符號規則。用 pandas 或試算表公式計算、XLSX 工具輸出。PDF 需另外使用轉檔器。",
+    "failure": "未映射科目或試算表不平衡就停止定稿；期間不同不得直接比較；現金流缺資料就明列未納入。",
+    "fields": "period,account_code,account_name,debit,credit,currency",
+    "steps": [
+      {
+        "title": "鎖定口徑",
+        "tool": "財務規則表",
+        "desc": "確認月份、幣別、結帳狀態與分類。",
+        "deliver": "口徑文件"
+      },
+      {
+        "title": "匯入資料",
+        "tool": "ERP 匯出／CSV",
+        "desc": "取得試算表、預算與上期資料。",
+        "deliver": "原始資料副本"
+      },
+      {
+        "title": "檢查映射",
+        "tool": "pandas／公式",
+        "desc": "核對借貸、重複列與科目歸類。",
+        "deliver": "資料檢核表"
+      },
+      {
+        "title": "彙總損益",
+        "tool": "pandas／公式",
+        "desc": "依財務核定規則計算收入成本費用。",
+        "deliver": "管理損益表"
+      },
+      {
+        "title": "比較差異",
+        "tool": "pandas／公式",
+        "desc": "比較預算與上期，零基期標不適用。",
+        "deliver": "差異分析表"
+      },
+      {
+        "title": "解讀異常",
+        "tool": "AI Agent",
+        "desc": "引用金額與來源；原因不足列待查。",
+        "deliver": "異常說明"
+      },
+      {
+        "title": "產出月報",
+        "tool": "XLSX／PDF 工具",
+        "desc": "整合摘要、圖表、明細與對帳表。",
+        "deliver": "月報草稿"
+      },
+      {
+        "title": "財務覆核",
+        "tool": "財務人員",
+        "desc": "總額對回原帳，確認差異說明。",
+        "deliver": "管理月報定稿"
+      }
+    ]
+  },
+  {
+    "id": "04",
+    "title": "業績分析",
+    "layer": "幫得到決策",
+    "tagline": "從業績升降，找出可以採取的行動",
+    "goal": "比較兩個月份的業績，提出三項有依據的改善行動。",
+    "inputs": "訂單明細、退貨折讓、產品成本、客戶與通路表",
+    "outputs": "分析 XLSX＋圖表＋三項改善建議",
+    "qa": "淨銷售額可對帳；不重複計單；建議附證據。",
+    "roi": "分析工時、對帳差異、建議採納後追蹤結果",
+    "pilot": "以兩個月訂單分析產品及通路；成本不完整時不計毛利。",
+    "setup": "CSV 先提供明細唯一鍵、日期、品項、數量、金額及折讓定義。以 pandas 或 SQL 聚合，再由 Agent 解讀。",
+    "failure": "重複鍵、缺金額或退貨口徑不明先修正；無成本不臆測毛利；短樣本不承諾預測準確度。",
+    "fields": "order_id,line_id,date,customer_id,product_id,channel,quantity,gross_sales,discount,returns,cost",
+    "steps": [
+      {
+        "title": "定義指標",
+        "tool": "指標字典",
+        "desc": "確認淨銷售額、訂單與毛利口徑。",
+        "deliver": "指標清單"
+      },
+      {
+        "title": "清理訂單",
+        "tool": "pandas／SQL",
+        "desc": "檢查明細唯一鍵與缺漏資料。",
+        "deliver": "乾淨明細"
+      },
+      {
+        "title": "整合主檔",
+        "tool": "pandas／SQL",
+        "desc": "連接產品、客戶與通路分類。",
+        "deliver": "分析資料表"
+      },
+      {
+        "title": "彙總業績",
+        "tool": "pandas／SQL",
+        "desc": "計算淨額、客單價與可用毛利。",
+        "deliver": "指標總表"
+      },
+      {
+        "title": "拆解變動",
+        "tool": "統計計算",
+        "desc": "定位產品、通路及客群的差異貢獻。",
+        "deliver": "變動貢獻表"
+      },
+      {
+        "title": "找出線索",
+        "tool": "AI Agent",
+        "desc": "區分資料事實與待驗證原因。",
+        "deliver": "機會與問題"
+      },
+      {
+        "title": "提出行動",
+        "tool": "AI Agent",
+        "desc": "設定三項行動、負責人與追蹤指標。",
+        "deliver": "行動建議表"
+      },
+      {
+        "title": "驗收追蹤",
+        "tool": "業務主管",
+        "desc": "確認數字與可行性，設定複查日。",
+        "deliver": "業績分析定稿"
+      }
+    ]
+  },
+  {
+    "id": "05",
+    "title": "市場研究",
+    "layer": "幫得到決策",
+    "tagline": "把搜尋結果，整理成有證據的市場判斷",
+    "goal": "回答一個明確市場問題，產出附來源的機會評估。",
+    "inputs": "研究問題、地區、客群、期間、既有報告",
+    "outputs": "研究摘要＋來源表＋假設與資料缺口",
+    "qa": "關鍵主張附來源日期；統計口徑一致；推估有標記。",
+    "roi": "研究工時、來源覆蓋率、關鍵主張可追溯率",
+    "pilot": "限定一個地區、一個品類，蒐集 5–10 個可讀取的原始來源，回答三個經營問題。",
+    "setup": "具網頁搜尋及閱讀能力的 Agent；優先政府統計、企業原始公告及研究報告。以文件或試算表保存來源與摘錄。",
+    "failure": "付費牆或無全文就註明存取限制；同一新聞轉載不當多個獨立證據；找不到數據就保留缺口。",
+    "fields": "source_id,title,publisher,url,published_date,accessed_date,geography,period,claim,limitation",
+    "steps": [
+      {
+        "title": "界定問題",
+        "tool": "AI Agent＋主管",
+        "desc": "指定市場、期間、客群與決策用途。",
+        "deliver": "研究任務書"
+      },
+      {
+        "title": "設計查詢",
+        "tool": "AI Agent",
+        "desc": "拆出需求、規模、通路與價格問題。",
+        "deliver": "搜尋計畫"
+      },
+      {
+        "title": "蒐集來源",
+        "tool": "搜尋／網頁讀取",
+        "desc": "閱讀原始資料並保留出處日期。",
+        "deliver": "來源台帳"
+      },
+      {
+        "title": "擷取證據",
+        "tool": "AI Agent",
+        "desc": "整理主張、數值、單位與適用範圍。",
+        "deliver": "證據表"
+      },
+      {
+        "title": "比對口徑",
+        "tool": "表格／公式",
+        "desc": "確認地區、期間、樣本及單位。",
+        "deliver": "可比較資料"
+      },
+      {
+        "title": "形成判斷",
+        "tool": "AI Agent",
+        "desc": "分開呈現事實、推論及未知。",
+        "deliver": "研究結論"
+      },
+      {
+        "title": "提出選項",
+        "tool": "AI Agent",
+        "desc": "列出機會、限制與下一步驗證。",
+        "deliver": "策略選項"
+      },
+      {
+        "title": "來源驗收",
+        "tool": "研究負責人",
+        "desc": "逐一開啟關鍵來源，覆核主張。",
+        "deliver": "研究簡報"
+      }
+    ]
+  },
+  {
+    "id": "06",
+    "title": "產品配方研究",
+    "layer": "幫得到決策",
+    "tagline": "加速證據整理，讓研發更快進入試驗",
+    "goal": "提出可供研發評估的候選配方與小試計畫。",
+    "inputs": "產品類別、目標族群、原料規格、文獻、成本限制",
+    "outputs": "候選配方表＋證據矩陣＋小試計畫",
+    "qa": "用量有依據；總量與單位一致；研發與品質人員覆核。",
+    "roi": "文獻整理工時、候選方案覆核率、小試迭代時間",
+    "pilot": "先選一種食品品類及 3–5 項原料，交付兩個研究候選方案；原料依據不足時先交資料缺口。",
+    "setup": "Agent 讀取原料規格、可得全文及試驗資料；用 PubMed/NCBI 查文獻、主管機關資料核對地區與產品類別。用公式檢查質量平衡及成本。",
+    "failure": "無安全性、用量或適用族群依據就不填入建議量；專利不等於有效證據；不將細胞、動物結果直接當人體功效。",
+    "fields": "ingredient_id,name,specification,unit,cost_per_unit,source_id,population,evidence_type,restriction,review_status",
+    "steps": [
+      {
+        "title": "界定產品",
+        "tool": "研發任務書",
+        "desc": "確認品類、族群、劑型與成本目標。",
+        "deliver": "產品規格書"
+      },
+      {
+        "title": "蒐集證據",
+        "tool": "文獻／官方資料",
+        "desc": "查原料、研究與適用規範。",
+        "deliver": "來源清單"
+      },
+      {
+        "title": "分級證據",
+        "tool": "AI Agent",
+        "desc": "區分人體、動物、細胞及供應商資料。",
+        "deliver": "證據矩陣"
+      },
+      {
+        "title": "篩選原料",
+        "tool": "研發規則＋Agent",
+        "desc": "比對規格、相容性與資料缺口。",
+        "deliver": "候選原料表"
+      },
+      {
+        "title": "建立候選",
+        "tool": "公式／研發條件",
+        "desc": "檢查總量、有效成分換算與成本。",
+        "deliver": "候選配方表"
+      },
+      {
+        "title": "審查限制",
+        "tool": "研發＋品質人員",
+        "desc": "核對使用條件、標示及族群限制。",
+        "deliver": "審查紀錄"
+      },
+      {
+        "title": "設計小試",
+        "tool": "研發人員＋Agent",
+        "desc": "定義對照、批次、量測與通過門檻。",
+        "deliver": "小試計畫"
+      },
+      {
+        "title": "實驗驗證",
+        "tool": "研發／檢驗團隊",
+        "desc": "依實測修正配方，記錄版本與結果。",
+        "deliver": "實測與改版紀錄"
+      }
+    ]
+  },
+  {
+    "id": "07",
+    "title": "競品分析",
+    "layer": "幫得到決策",
+    "tagline": "用相同口徑比較，找出可驗證的差異",
+    "goal": "比較 3–5 個競品，找出自家產品的定位機會。",
+    "inputs": "競品名單、官方頁面、價格日期、自家規格",
+    "outputs": "競品矩陣＋定位建議＋證據索引",
+    "qa": "同規格同通路比較；價格附日期；未知不硬填。",
+    "roi": "更新工時、資料完整率、定位主張覆核率",
+    "pilot": "選三項競品與自家一項產品，統一每份或每 100 g 的價格單位。",
+    "setup": "可讀取公開頁面的 Agent；表格工具；來源表。頁面不可讀可改由授權人工提供截圖，保留擷取日期。",
+    "failure": "不同促銷或包裝不直接比總價；未揭露資料填未知；客戶評論不可當成已驗證品質結論。",
+    "fields": "brand,product,source_url,accessed_date,channel,pack_size,unit,price,promo_status,claim,evidence",
+    "steps": [
+      {
+        "title": "設定比較",
+        "tool": "AI Agent＋主管",
+        "desc": "選競品、客群與比較維度。",
+        "deliver": "比較規格"
+      },
+      {
+        "title": "擷取資料",
+        "tool": "官方頁面／檔案",
+        "desc": "記錄規格、售價、通路與日期。",
+        "deliver": "原始資料表"
+      },
+      {
+        "title": "標準換算",
+        "tool": "表格公式",
+        "desc": "換成同重量、每份或同使用期間。",
+        "deliver": "標準化價格"
+      },
+      {
+        "title": "整理主張",
+        "tool": "AI Agent",
+        "desc": "分清官方宣稱、評論與實測證據。",
+        "deliver": "主張分類表"
+      },
+      {
+        "title": "建立矩陣",
+        "tool": "表格工具",
+        "desc": "以固定欄位呈現優勢與未知。",
+        "deliver": "競品比較表"
+      },
+      {
+        "title": "找出差異",
+        "tool": "AI Agent",
+        "desc": "將差異連結到客群需求。",
+        "deliver": "差異假設"
+      },
+      {
+        "title": "設計驗證",
+        "tool": "行銷／產品團隊",
+        "desc": "安排客訪或訊息測試確認吸引力。",
+        "deliver": "驗證計畫"
+      },
+      {
+        "title": "核對更新",
+        "tool": "產品主管",
+        "desc": "核對關鍵頁面，設定更新日期。",
+        "deliver": "競品分析定稿"
+      }
+    ]
+  },
+  {
+    "id": "08",
+    "title": "客戶開發",
+    "layer": "做得到工作",
+    "tagline": "讓業務帶著線索，開始有準備的對話",
+    "goal": "從合規取得的名單，整理優先客戶與個別開發草稿。",
+    "inputs": "目標客群、授權名單、公司資料、既有 CRM 紀錄",
+    "outputs": "分級名單＋開發訊息草稿＋CRM 匯入檔",
+    "qa": "來源可追溯；名單去重；拒收排除；寄送另依授權。",
+    "roi": "每位合格客戶研究工時、有效回覆率、商機轉換率",
+    "pilot": "先用 20 家已授權名單，交付 5 家優先客戶及個別訊息草稿；先不寄送。",
+    "setup": "CRM 匯出 CSV 即可開始；先定義分級條件與拒收名單。正式寫入需設定 CRM API、欄位映射與去重鍵。",
+    "failure": "聯絡方式不明就留空；資料不足不得虛構採購意圖；重複或拒收名單移出；CRM 寫入失敗保存待辦並避免重複建立。",
+    "fields": "company_id,company_name,website,industry,source,contact_channel,do_not_contact,crm_id,fit_reason",
+    "steps": [
+      {
+        "title": "定義客群",
+        "tool": "業務規則表",
+        "desc": "設定產業、規模、需求與排除條件。",
+        "deliver": "理想客戶輪廓"
+      },
+      {
+        "title": "取得名單",
+        "tool": "CRM／授權資料",
+        "desc": "匯入已允許使用的公司與聯絡資料。",
+        "deliver": "來源名單"
+      },
+      {
+        "title": "去重排除",
+        "tool": "規則／表格",
+        "desc": "合併重複公司，排除拒收對象。",
+        "deliver": "有效名單"
+      },
+      {
+        "title": "蒐集線索",
+        "tool": "搜尋＋AI Agent",
+        "desc": "查核公司公開需求與可用切入點。",
+        "deliver": "客戶研究卡"
+      },
+      {
+        "title": "評分排序",
+        "tool": "透明評分規則",
+        "desc": "按匹配條件排序，保留分數依據。",
+        "deliver": "優先清單"
+      },
+      {
+        "title": "撰寫草稿",
+        "tool": "AI Agent",
+        "desc": "連結客戶需求，提出具體價值。",
+        "deliver": "個別開發訊息"
+      },
+      {
+        "title": "檢核建檔",
+        "tool": "業務主管＋CRM",
+        "desc": "確認內容後依授權建立追蹤紀錄。",
+        "deliver": "待執行紀錄"
+      },
+      {
+        "title": "跟進衡量",
+        "tool": "CRM／業務人員",
+        "desc": "寄送依授權；記錄回覆與下一步。",
+        "deliver": "商機追蹤表"
+      }
+    ]
+  },
+  {
+    "id": "09",
+    "title": "客服",
+    "layer": "做得到工作",
+    "tagline": "把常見問題快速解答，把例外交對人",
+    "goal": "根據核准知識回答常見問題，例外轉人工處理。",
+    "inputs": "核准 FAQ、政策版本、歷史工單、轉人工規則",
+    "outputs": "附依據的回覆＋分類工單＋待更新 FAQ",
+    "qa": "答案符合有效政策；未知轉人工；個資及權限正確。",
+    "roi": "首次回覆時間、正確解決率、重開率、人工接手率",
+    "pilot": "先離線測 30 題，含 10 題未知或例外；對照人工標準答案後再接渠道。",
+    "setup": "先以核准 FAQ 檔案檢索試跑；上線再接客服平台與知識庫。訂單查詢須驗證身分與資料存取權限。",
+    "failure": "無對應政策、來源衝突或超出權限就轉人工；不得自行承諾退款、賠償或特殊條件；系統故障保存工單。",
+    "fields": "faq_id,question,approved_answer,policy_version,effective_date,expiry_date,escalation_rule",
+    "steps": [
+      {
+        "title": "整理知識",
+        "tool": "客服主管",
+        "desc": "確認 FAQ、政策版本及適用期限。",
+        "deliver": "核准知識庫"
+      },
+      {
+        "title": "理解提問",
+        "tool": "AI Agent",
+        "desc": "分類問題，缺資訊時先詢問。",
+        "deliver": "問題分類"
+      },
+      {
+        "title": "驗證查詢",
+        "tool": "身分／存取規則",
+        "desc": "涉及訂單或個資時先確認權限。",
+        "deliver": "可用查詢範圍"
+      },
+      {
+        "title": "檢索依據",
+        "tool": "知識檢索工具",
+        "desc": "找有效政策，保留來源與版本。",
+        "deliver": "回答依據"
+      },
+      {
+        "title": "產生答覆",
+        "tool": "AI Agent",
+        "desc": "用顧客語言說明可執行的下一步。",
+        "deliver": "回覆草稿"
+      },
+      {
+        "title": "判斷例外",
+        "tool": "規則／AI Agent",
+        "desc": "未知、衝突、客訴或越權轉人工。",
+        "deliver": "轉交工單"
+      },
+      {
+        "title": "回覆記錄",
+        "tool": "客服平台",
+        "desc": "依核准範圍答覆並記錄處理結果。",
+        "deliver": "服務紀錄"
+      },
+      {
+        "title": "品質回饋",
+        "tool": "客服主管",
+        "desc": "抽查正確性，更新 FAQ 待審項目。",
+        "deliver": "改善清單"
+      }
+    ]
+  },
+  {
+    "id": "10",
+    "title": "會議紀錄與追蹤",
+    "layer": "做得到工作",
+    "tagline": "讓每次會議，都有可以追蹤的下一步",
+    "goal": "把會議轉為有證據的決議與可追蹤待辦。",
+    "inputs": "授權錄音、議程、與會者、日期時區、前次待辦",
+    "outputs": "會議摘要＋決議表＋任務追蹤表",
+    "qa": "決議可回溯；負責人與期限經確認；不重複建單。",
+    "roi": "紀錄工時、任務欄位完整率、到期完成率",
+    "pilot": "用一場 20 分鐘會議；先輸出待辦 CSV，由主持人確認後再匯入任務系統。",
+    "setup": "錄音先經允許；STT 可用 WhisperX，也可直接提供逐字稿。接任務 API 時用 meeting_id＋action_id 防重複建單。",
+    "failure": "不確定誰負責或何時完成就標待確認；相對日期依會議日期與時區換算；未表決的建議不可寫成決議。",
+    "fields": "meeting_id,action_id,task,owner,due_date,timezone,status,evidence_timestamp",
+    "steps": [
+      {
+        "title": "確認會議",
+        "tool": "會議資料表",
+        "desc": "設定主題、日期時區與錄音使用範圍。",
+        "deliver": "會議基本資料"
+      },
+      {
+        "title": "轉寫內容",
+        "tool": "STT／逐字稿",
+        "desc": "保留時間碼，核對說話者。",
+        "deliver": "可追溯逐字稿"
+      },
+      {
+        "title": "整理議題",
+        "tool": "AI Agent",
+        "desc": "合併同主題，區分討論與結論。",
+        "deliver": "議題摘要"
+      },
+      {
+        "title": "擷取決議",
+        "tool": "AI Agent",
+        "desc": "引用原話位置，不把建議當決議。",
+        "deliver": "決議表"
+      },
+      {
+        "title": "建立待辦",
+        "tool": "AI Agent",
+        "desc": "整理任務、負責人、期限及依據。",
+        "deliver": "待辦草稿"
+      },
+      {
+        "title": "主持人確認",
+        "tool": "主持人／任務負責人",
+        "desc": "補齊未明確承諾的負責人與日期。",
+        "deliver": "核准待辦"
+      },
+      {
+        "title": "匯入追蹤",
+        "tool": "CSV／任務 API",
+        "desc": "以唯一鍵建檔，依授權發送提醒。",
+        "deliver": "任務清單"
+      },
+      {
+        "title": "複查結案",
+        "tool": "任務系統＋人員",
+        "desc": "到期查狀態；憑成果驗收結案。",
+        "deliver": "追蹤紀錄"
+      }
+    ]
+  },
+  {
+    "id": "11",
+    "title": "SOP 與流程自動化",
+    "layer": "做得到工作",
+    "tagline": "先把流程說清楚，再讓 Agent 接手執行",
+    "goal": "把一項重複工作，變成可測試且可追溯的流程。",
+    "inputs": "現行 SOP、表單、系統欄位、例外案例、權限範圍",
+    "outputs": "SOP 文件＋流程設定＋測試與執行紀錄",
+    "qa": "正常與例外皆通過；重跑不重複；失敗可追溯。",
+    "roi": "每件處理工時、成功率、重工率、例外處理時間",
+    "pilot": "從「表單申請→分類→主管確認→建檔」開始，測正常、缺欄位、重複、API 失敗四種案例。",
+    "setup": "可用 n8n 或既有工作流平台；先在測試環境設定憑證、欄位、執行唯一鍵及錯誤出口。涉及判讀才接 LLM。",
+    "failure": "格式錯誤要求補件；暫時失敗可限次重試；不可重複的寫入先查唯一鍵；不可回復的動作改轉人工處理。",
+    "fields": "request_id,submitted_at,request_type,requester,required_fields,status,approval_id,error",
+    "steps": [
+      {
+        "title": "選定流程",
+        "tool": "流程負責人",
+        "desc": "選高頻、規則清楚且可量測的任務。",
+        "deliver": "流程範圍"
+      },
+      {
+        "title": "盤點現況",
+        "tool": "訪談／文件讀取",
+        "desc": "記錄輸入、角色、步驟與例外。",
+        "deliver": "現況流程表"
+      },
+      {
+        "title": "定義規則",
+        "tool": "AI Agent＋人員",
+        "desc": "寫清觸發、判斷、輸出及責任。",
+        "deliver": "SOP 草稿"
+      },
+      {
+        "title": "設計分工",
+        "tool": "流程設計",
+        "desc": "規則用程式，語意判讀交 Agent。",
+        "deliver": "執行流程圖"
+      },
+      {
+        "title": "連接系統",
+        "tool": "n8n／API",
+        "desc": "設定欄位映射、權限與唯一鍵。",
+        "deliver": "測試工作流"
+      },
+      {
+        "title": "處理例外",
+        "tool": "錯誤分支",
+        "desc": "加入驗證、限次重試與人工接手。",
+        "deliver": "失敗處理規則"
+      },
+      {
+        "title": "測試驗收",
+        "tool": "案例測試",
+        "desc": "測正常、缺漏、重複與系統失敗。",
+        "deliver": "測試紀錄"
+      },
+      {
+        "title": "監控改版",
+        "tool": "流程負責人",
+        "desc": "小範圍上線，追蹤錯誤與版本。",
+        "deliver": "可追溯 SOP"
+      }
+    ]
+  },
+  {
+    "id": "12",
+    "title": "CEO 經營月報",
+    "layer": "幫得到決策",
+    "tagline": "把各部門數據，整合成可決策的經營議題",
+    "goal": "整合核准部門資料，產出一頁摘要與三項決策議題。",
+    "inputs": "財務月報、業績、營運 KPI、客服摘要、策略待辦",
+    "outputs": "一頁 CEO 摘要＋明細附件＋決策追蹤表",
+    "qa": "同期間同口徑；事實與推估分開；每項決策有依據。",
+    "roi": "整併工時、決策待辦結案率、關鍵資料準時率",
+    "pilot": "先整合財務、業績、營運三張已核准月表；資料不足保留缺口，不強行做預測。",
+    "setup": "先以部門核准 CSV／XLSX 匯出作輸入；指標字典統一定義、責任人及更新時間。數據用公式計算，Agent 負責摘要與情境說明。",
+    "failure": "來源未核准或期間不同就標示限制；跨部門 KPI 不直接相加；情境假設須明列，不能當作已發生結果。",
+    "fields": "period,department,metric,value,unit,target,source_file,owner,approved,updated_at",
+    "steps": [
+      {
+        "title": "設定議題",
+        "tool": "CEO／經營團隊",
+        "desc": "指定本月目標與需要決策的問題。",
+        "deliver": "月報任務書"
+      },
+      {
+        "title": "整合月表",
+        "tool": "檔案／資料工具",
+        "desc": "匯入核准部門數據與前次待辦。",
+        "deliver": "來源台帳"
+      },
+      {
+        "title": "統一口徑",
+        "tool": "指標字典／公式",
+        "desc": "對齊期間、單位、定義與資料版本。",
+        "deliver": "共同指標表"
+      },
+      {
+        "title": "辨識偏差",
+        "tool": "公式／AI Agent",
+        "desc": "比較目標與實績，定位重要例外。",
+        "deliver": "偏差清單"
+      },
+      {
+        "title": "串聯影響",
+        "tool": "AI Agent",
+        "desc": "連結營收、成本、交付與客戶訊號。",
+        "deliver": "經營議題"
+      },
+      {
+        "title": "比較選項",
+        "tool": "情境表／公式",
+        "desc": "列選項、假設、資源與預期影響。",
+        "deliver": "決策選項表"
+      },
+      {
+        "title": "產出摘要",
+        "tool": "AI Agent＋文件工具",
+        "desc": "一頁摘要，附證據與三項決策題。",
+        "deliver": "CEO 月報草稿"
+      },
+      {
+        "title": "決策追蹤",
+        "tool": "CEO／任務負責人",
+        "desc": "記錄決議、負責人、期限與複查。",
+        "deliver": "經營行動清單"
+      }
+    ]
+  }
+]
