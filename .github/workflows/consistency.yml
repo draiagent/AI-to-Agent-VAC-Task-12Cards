@@ -1,0 +1,29 @@
+name: 一致性檢查
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  consistency:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 核對 cards.json / templates / tasks / 指南
+        run: python scripts/check_consistency.py
+
+  links:
+    runs-on: ubuntu-latest
+    continue-on-error: true  # 外部連結暫時失效不擋綠燈
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 檢查官方文件連結
+        run: python scripts/check_consistency.py --links

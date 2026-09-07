@@ -18,6 +18,10 @@ AI Coach 益力康陳董｜2026 AI to Agent
 
 建議先挑一項任務，用提供的小型試作範圍跑通，再逐步擴大。不要把尚未驗證的方案或估計 ROI 當成已完成成果。
 
+## 一致性檢查
+
+`python scripts/check_consistency.py`：核對 cards.json、templates/、tasks/ 與完整指南四份來源是否一致（12 張卡、每張 8 步驟、模板表頭相符、任務書含步驟與模板路徑）。加 `--links` 另檢查官方文件連結。push 到 main 或開 PR 時由 GitHub Actions 自動執行。
+
 ## 授權
 
 本教材（文件、圖卡、模板、任務書）以 [CC BY-SA 4.0](LICENSE) 釋出：可自由使用、修改與再散布，須標示出處並以相同條款分享。
