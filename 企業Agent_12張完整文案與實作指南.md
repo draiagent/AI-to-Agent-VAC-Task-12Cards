@@ -3,7 +3,7 @@
 **AI Coach 益力康陳董｜2026 AI to Agent**  
 **用AI放大創意‧用Agent輕鬆執行**
 
-版本：v1.0｜編製與工具文件查核：2026-09-07
+版本：v1.0｜編製與工具文件查核：2026-09-07｜授權：CC BY-SA 4.0
 
 ## 如何使用這套教材
 
@@ -413,7 +413,7 @@
 
 **工具查核來源：**[WhisperX：時間碼、對齊與說話者分離條件](https://github.com/m-bain/whisperX)
 
-## 11｜Agent 做SOP 與流程自動化
+## 11｜Agent 做 SOP 與流程自動化
 
 **先把流程說清楚，再讓 Agent 接手執行**
 
@@ -448,7 +448,7 @@
 
 **工具查核來源：**[n8n：錯誤處理與錯誤工作流](https://docs.n8n.io/build/flow-logic/handle-errors-gracefully)
 
-## 12｜Agent 做CEO 經營月報
+## 12｜Agent 做 CEO 經營月報
 
 **把各部門數據，整合成可決策的經營議題**
 
